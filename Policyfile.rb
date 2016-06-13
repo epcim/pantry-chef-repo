@@ -1,4 +1,4 @@
-# Policyfile.rb - Describe how you want Chef to configure your workstation.
+# Policyfile.rb - Describe how you want Chef to configure your pantry-workstation.
 #
 # For more information on the Policyfile feature, visit
 # https://github.com/opscode/chef-dk/blob/master/POLICYFILE_README.md
@@ -21,17 +21,18 @@ default_source :community
 # Add `cookbook` entries for cookbooks that are not found on
 # supermarket. See the POLICYFILE_README.md for more information.
 
-cookbook 'apt'
+#cookbook 'apt'
+#cookbook 'homeshick', git: 'https://github.com/chefhippie/homeshick'
 cookbook 'packages'
-cookbook 'homeshick', git: 'https://github.com/chefhippie/homeshick'
 cookbook 'spf13_vim', git: 'https://github.com/xavierdutreilh/chef-spf13-vim'
-cookbook 'workstation', path: 'cookbooks/workstation'
+
+cookbook 'pantry-pantry-workstation', path: 'cookbooks/pantry-pantry-workstation'
+#cookbook 'pantry-workstation', git: 'https://github.com/apealive-cookbooks/pantry-workstation'
 
 run_list(
-  'pantry',
+  'pantry-pantry-workstation',
   'packages',
   #'spf13_vim',
-  'workstation::default'
 )
 
 ############
@@ -41,7 +42,7 @@ run_list(
 #
 #
 
-default['workstation']['users'] = ['pmichalec']
+default['pantry-workstation']['users'] = ['pmichalec']
 
 default['spf13_vim']['users'] = [
    { 	'username'=> 'pmichalec',
@@ -164,7 +165,7 @@ default['packages-cookbook'] = %w(
 )
 
 # packages from lang package managers
-default['workstation']['lang-packages'] = {
+default['pantry-workstation']['lang-packages'] = {
 
   # keys represents lang to be installed
   #
@@ -181,18 +182,18 @@ default['workstation']['lang-packages'] = {
 }
 
 # npm
-# installs if 'npm' is a key in node['workstation']['lang-packages']
+# installs if 'npm' is a key in node['pantry-workstation']['lang-packages']
 default['npm_packages']= [
     { :name => 'fisherman' },
     { :name => 'gr' },
 ]
 
-# external (see recipe workstation::extr-packages)
-default['workstation']['external-packages'] = %w(authoring saltstack)
+# external (see recipe pantry-workstation::extr-packages)
+default['pantry-workstation']['external-packages'] = %w(authoring saltstack)
 
 ## NICE TO HAVE BUT OVER THE REAL NEEDS RIGHT NOW
 #
-#default['workstation']['debian-resources'] = {
+#default['pantry-workstation']['debian-resources'] = {
   #authoring => {
     #repos: ['ppa:neovim-ppa/unstable'],
     #packages: ['neovim']
