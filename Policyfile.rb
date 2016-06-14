@@ -21,16 +21,15 @@ default_source :community
 # Add `cookbook` entries for cookbooks that are not found on
 # supermarket. See the POLICYFILE_README.md for more information.
 
-#cookbook 'apt'
-#cookbook 'homeshick', git: 'https://github.com/chefhippie/homeshick'
+cookbook 'homeshick', git: 'https://github.com/chefhippie/homeshick'
 cookbook 'packages'
 cookbook 'spf13_vim', git: 'https://github.com/xavierdutreilh/chef-spf13-vim'
 
-cookbook 'pantry-pantry-workstation', path: 'cookbooks/pantry-pantry-workstation'
+cookbook 'pantry-workstation', path: 'cookbooks/pantry-workstation'
 #cookbook 'pantry-workstation', git: 'https://github.com/apealive-cookbooks/pantry-workstation'
 
 run_list(
-  'pantry-pantry-workstation',
+  'pantry-workstation',
   'packages',
   #'spf13_vim',
 )
