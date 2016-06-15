@@ -96,7 +96,7 @@ fi
 if [ "x$run_chef" = "xtrue" ]
 then
     echo 'Running `chef-client` with the default Policyfile.rb.'
-    /opt/chefdk/embedded/bin/chef-client -z
+    cd zero-repo; /opt/chefdk/embedded/bin/chef-client -z
     echo 'In the future, you can modify the Policyfile.rb, then run'
     echo '`chef update` and `chef export zero-repo`, then rerun chef client with'
     echo '`sudo /opt/chefdk/embedded/bin/chef-client -z` from this directory.'
