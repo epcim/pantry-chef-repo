@@ -1,0 +1,4 @@
+repo=.
+repo=cookbooks/pantry-workstation
+repo=workspace/homeshick
+serial=True
