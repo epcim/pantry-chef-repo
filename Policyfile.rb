@@ -30,6 +30,7 @@ cookbook 'pantry-workstation', path: 'cookbooks/pantry-workstation'
 
 run_list(
   'pantry-workstation',
+  'pantry-workstation::users_pair',
   'packages',
   #'spf13_vim',
 )
@@ -123,6 +124,7 @@ default['homebrew']['formula']    = %w(
   freetype
   git
   git-extras
+  pandoc
   ispell
   jq
   jsonpp
@@ -130,6 +132,10 @@ default['homebrew']['formula']    = %w(
   wget
   zsh
   zsh-completions
+  ipcalc
+  asciinema
+  sshuttle
+
 )
 default['homebrew']['taps']       = %w(
 )
@@ -142,13 +148,17 @@ default['chocolatey']['packages'] = %w(
 
 # NOTE: be aware of has as config: {'git' => 'install', 'openssl' => 'upgrade'}
 default['packages-cookbook'] = %w(
+  ipcalc
   ack-grep
+  byobu
+  ca-certificates
   curl
   fish
   git-annex
   git-extras
   network-manager-openvpn-gnome
   npm
+  openssh-server
   openvpn
   python-pip
   slack
@@ -161,6 +171,22 @@ default['packages-cookbook'] = %w(
   wget
   xclip
   zsh
+  pandoc
+  jq
+  python3-sphinx
+  qemu-kvm
+  virt-manager
+  libvirt-bin
+  bridge-utils
+  virtinst
+  aptdcon
+  cryptsetup
+  gpp
+  ipcalc
+  luksopen
+  openconnect
+  putty
+  sshuttle
 )
 
 # packages from lang package managers
@@ -172,7 +198,16 @@ default['pantry-workstation']['lang-packages'] = {
   # if any value than install from recipe + the list
 
   # name:version
-  :python => %w(), 
+  :python => %w(
+    codevalidator
+    virtualenv
+    virtualenvwrapper
+    yolk3k
+    reclass
+    salt
+    salt-ssh
+    cookiecutter
+  ),
     # mu_repo
 
   # name

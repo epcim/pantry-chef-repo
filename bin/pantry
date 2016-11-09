@@ -26,18 +26,21 @@
 #
 # Any failing command run by this script may cause it to exit (or not)
 # and return its own exit code (or 0).
-if [ $USER != 'root' ]; then
-    echo 'You must execute this script as root.'
-    echo "sudo ${0}"
-    exit 100
-fi
+#if [ $USER != 'root' ]; then
+#    echo 'You must execute this script as root.'
+#    echo "sudo ${0}"
+#    exit 100
+#fi
 
-while getopts cup opt
+sudo=sudo
+
+while getopts cupa opt
 do
     case "$opt" in
         c) run_chef=true;;
         u) upgrade=true;;
         p) prerelease=true;;
+        a) update=true;;
     esac
 done
 shift `expr $OPTIND - 1`
@@ -66,7 +69,8 @@ fi
 if [ ! -f /opt/chefdk/version-manifest.txt ]; then
     echo ''
     echo 'Downloading ChefDK.'
-    curl -L https://www.chef.io/chef/install.sh | bash -s -- $preopt -P chefdk
+    # FIXME, use deb from apt repo (safer)
+    curl -L https://www.chef.io/chef/install.sh | $sudo bash -s -- $preopt -P chefdk
 
     if [ $? -ne 0 ]; then
         echo 'Failed to install ChefDK. Exiting!'
@@ -93,10 +97,18 @@ then
     echo ''
 fi
 
+if [ "x$update" = "xtrue" ]
+then
+    chef update && chmod 0644 Policyfile.lock.json
+    [ -d zero-repo ] && $sudo chown $USER.$GROUP -R zero-repo
+    chef export zero-repo --force
+fi
+
 if [ "x$run_chef" = "xtrue" ]
 then
     echo 'Running `chef-client` with the default Policyfile.rb.'
-    cd zero-repo; /opt/chefdk/embedded/bin/chef-client -z
+    [ -d data_bags ] && cp -af data_bags zero-repo
+    cd zero-repo; $sudo /opt/chefdk/embedded/bin/chef-client -z
     echo 'In the future, you can modify the Policyfile.rb, then run'
     echo '`chef update` and `chef export zero-repo`, then rerun chef client with'
     echo '`sudo /opt/chefdk/embedded/bin/chef-client -z` from this directory.'
@@ -105,5 +117,6 @@ else
     echo "$0 -c"
     exit 0
 fi
+
 
 exit 0
